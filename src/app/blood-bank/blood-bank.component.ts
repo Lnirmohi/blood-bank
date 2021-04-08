@@ -42,6 +42,9 @@ export class BloodBankComponent implements OnInit {
   }
 
   nextTab(event) {
+    this._bloodBankData.positiveBloodData = [];
+    this._bloodBankData.negativeBloodData = [];
+    
     this.tabIndex = event.index;
 
     for (const key in (event.formData)) {
