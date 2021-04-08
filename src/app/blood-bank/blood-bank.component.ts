@@ -122,6 +122,8 @@ export class BloodBankComponent implements OnInit {
           console.log('this.bloodBankData.positiveBloodData[i]', this.bloodBankData.positiveBloodData[i]);
 
           this.bloodBankData.negativeBloodData[i].eligibleForDonation = true;
+        } else {
+          this.bloodBankData.negativeBloodData[i].eligibleForDonation = false;
         }
       }
     }
