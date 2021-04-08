@@ -1,0 +1,72 @@
+.container {
+  width: 1000px;
+  padding: 0 50px;
+}
+
+.tab-container {
+  display: flex;
+  flex-direction: column;
+
+  background: white;
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.2);
+
+  padding: 0.6rem 2rem 1.8rem;
+  border-radius: 8px;
+}
+
+mat-divider {
+  margin-bottom: 40px;
+}
+
+mat-card {
+  width: 60px;
+  height: 50px;
+
+  text-align: center;
+
+  cursor: move;
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-disabled {
+    background: #ccc;
+    cursor: default;
+}
+
+#positive-blood-group,
+#negative-blood-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.blood-requirement-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#bucket-container {
+  width: 200px;
+  height: 200px;
+  border: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+
+  display: flex;
+  padding: 0 1rem;
+
+  background: #fff;
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+#bucket-container p{
+    text-align: left;
+    font-size: 22px;
+    font-size: bold;
+}

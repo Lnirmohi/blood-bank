@@ -1,0 +1,36 @@
+{
+  "data": {
+    "A+": {
+      "canGive": ["A+", "AB+"],
+      "canReceive": ["O+", "A+", "O-", "A-"]
+    },
+    "B+": {
+      "canGive": ["B+", "AB+"],
+      "canReceive": ["O+", "B+", "O-", "B-"]
+    },
+    "O+": {
+      "canGive": ["O+", "A+", "B+", "AB+"],
+      "canReceive": ["O+", " O-"]
+    },
+    "AB+": {
+      "canGive": ["AB+"],
+      "canReceive": ["O+", "A+", "B+", "AB+", "O-", "A-", "B-", "AB-"]
+    },
+    "A-": {
+      "canGive": ["A+", "AB+", "A-", "AB-"],
+      "canReceive": ["O-", "A-"]
+    },
+    "B-": {
+      "canGive": ["B+", "AB+", "B-", "AB-"],
+      "canReceive": ["O-", "B-"]
+    },
+    "O-": {
+      "canGive": ["O+", "A+", "B+", "AB+", "O-", "A-", "B-", "AB-"],
+      "canReceive": ["O-"]
+    },
+    "AB-": {
+      "canGive": ["AB+", "AB-"],
+      "canReceive": ["O-", "A-", "B-", "AB-"]
+    }
+  }
+}

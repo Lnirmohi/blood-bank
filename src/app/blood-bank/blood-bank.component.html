@@ -1,0 +1,46 @@
+<mat-tab-group class="container" [(selectedIndex)]="tabIndex" mat-align-tabs="start">
+  <mat-tab label="Form">
+    <app-blood-group-info-form (closeForm)="nextTab($event)"></app-blood-group-info-form>
+  </mat-tab>
+
+  <mat-tab label="Blood Bank">
+    <div class="tab-container">
+      <h2>Blood Bank</h2>
+
+      <mat-divider></mat-divider>
+
+      <div id="positive-blood-group">
+
+        <mat-card cdkDrag cdkDragBoundary=".tab-container" *ngFor="let bloodData of bloodBankData.positiveBloodData"
+          [cdkDragDisabled]="!bloodData.eligibleForDonation">
+          <mat-card-title>{{ bloodData.bloodGroup }}</mat-card-title>
+          <mat-card-content>{{ bloodData.countPresent }}</mat-card-content>
+        </mat-card>
+
+      </div>
+
+      <div id="negative-blood-group">
+
+        <mat-card cdkDrag cdkDragBoundary=".tab-container" *ngFor="let bloodData of bloodBankData.negativeBloodData"
+          [cdkDragDisabled]="!bloodData.eligibleForDonation">
+          <mat-card-title>{{ bloodData.bloodGroup }}</mat-card-title>
+          <mat-card-content>{{ bloodData.countPresent }}</mat-card-content>
+        </mat-card>
+
+      </div>
+
+      <div class="blood-requirement-section">
+
+        <app-blood-requirement-form (bloodRequiredData)="checkBloodGroupAvailibility($event)">
+        </app-blood-requirement-form>
+
+        <div id="bucket-container">
+          <p>Bucket</p>
+          <div id="bucket"></div>
+        </div>
+      </div>
+
+    </div>
+  </mat-tab>
+
+</mat-tab-group>

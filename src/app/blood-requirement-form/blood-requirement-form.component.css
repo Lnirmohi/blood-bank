@@ -1,0 +1,13 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+mat-form-field {
+    max-width: 250px;
+}
+
+button[type="submit"] {
+    width: 250px;
+}
