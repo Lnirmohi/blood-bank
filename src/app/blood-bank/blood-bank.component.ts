@@ -106,6 +106,8 @@ export class BloodBankComponent implements OnInit {
         if (validBloodGroups[0][j] === this.bloodBankData.positiveBloodData[i].bloodGroup) {
 
           this.bloodBankData.positiveBloodData[i].eligibleForDonation = true;
+        } else {
+          this.bloodBankData.negativeBloodData[i].eligibleForDonation = false;
         }
       }
     }
