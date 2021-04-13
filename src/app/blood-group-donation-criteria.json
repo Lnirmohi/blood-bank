@@ -10,7 +10,7 @@
     },
     "O+": {
       "canGive": ["O+", "A+", "B+", "AB+"],
-      "canReceive": ["O+", " O-"]
+      "canReceive": ["O+", "O-"]
     },
     "AB+": {
       "canGive": ["AB+"],

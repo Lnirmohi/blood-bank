@@ -1,6 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-blood-group-info-form',
@@ -10,8 +9,7 @@ import { Router } from '@angular/router';
 export class BloodGroupInfoFormComponent implements OnInit {
 
   @Output() closeForm;
-  constructor(private formBuilder: FormBuilder,
-              private router: Router) {
+  constructor(private formBuilder: FormBuilder) {
     this.closeForm = new EventEmitter();
   }
 

@@ -9,20 +9,30 @@
 
       <mat-divider></mat-divider>
 
-      <div id="positive-blood-group">
+      <div id="positive-blood-group" cdkDropList>
 
-        <mat-card cdkDrag cdkDragBoundary=".tab-container" *ngFor="let bloodData of bloodBankData.positiveBloodData"
-          [cdkDragDisabled]="!bloodData.eligibleForDonation">
+        <mat-card 
+          draggable
+          [dragData]="bloodData"
+          [ngClass]="{'drag-disabled' : !bloodData.eligibleForDonation}"
+          [dragScope]="'container'"
+          *ngFor="let bloodData of bloodBankData.positiveBloodData"
+          [dragEnabled]="bloodData.eligibleForDonation">
           <mat-card-title>{{ bloodData.bloodGroup }}</mat-card-title>
           <mat-card-content>{{ bloodData.countPresent }}</mat-card-content>
         </mat-card>
 
       </div>
 
-      <div id="negative-blood-group">
+      <div id="negative-blood-group" cdkDropList>
 
-        <mat-card cdkDrag cdkDragBoundary=".tab-container" *ngFor="let bloodData of bloodBankData.negativeBloodData"
-          [cdkDragDisabled]="!bloodData.eligibleForDonation">
+        <mat-card
+          draggable
+          [dragData]="bloodData"
+          [ngClass]="{'drag-disabled' : !bloodData.eligibleForDonation}"
+          [dragScope]="'container'"
+          *ngFor="let bloodData of bloodBankData.negativeBloodData"
+          [dragEnabled]="bloodData.eligibleForDonation">
           <mat-card-title>{{ bloodData.bloodGroup }}</mat-card-title>
           <mat-card-content>{{ bloodData.countPresent }}</mat-card-content>
         </mat-card>
@@ -34,10 +44,23 @@
         <app-blood-requirement-form (bloodRequiredData)="checkBloodGroupAvailibility($event)">
         </app-blood-requirement-form>
 
-        <div id="bucket-container">
+        <div 
+          droppable
+          [dropScope]="'container'"
+          [dropEnabled]="dropAllowedOnContainer"
+          [dragOverClass]="'drag-target-border'"
+          (onDrop)="bloodCardDropped($event)"
+          id="bucket-container">
+          
           <p>Bucket</p>
-          <div id="bucket"></div>
+            <div>
+              <mat-card id="bucket" *ngFor="let item of bloodContainerList">
+                <mat-card-title>{{ item.bloodGroup }}</mat-card-title>
+                <mat-card-content>{{ item.countPresent }}</mat-card-content>
+              </mat-card>
+            </div>
         </div>
+
       </div>
 
     </div>

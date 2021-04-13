@@ -1,3 +1,5 @@
+@import 'ng-drag-drop/style.css';
+
 .container {
   width: 1000px;
   padding: 0 50px;
@@ -26,13 +28,18 @@ mat-card {
 
   cursor: move;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.cdk-drag-disabled {
-    background: #ccc;
-    cursor: default;
+.drag-disabled {
+  background: #ccc;
+  cursor: default;
+}
+
+.drag-target-border {
+  border: 2px solid green;
+  border-style: dashed;
 }
 
 #positive-blood-group,
@@ -43,18 +50,20 @@ mat-card {
 }
 
 .blood-requirement-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 #bucket-container {
   width: 200px;
   height: 200px;
-  border: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
 
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   padding: 0 1rem;
 
   background: #fff;
@@ -65,8 +74,8 @@ mat-card {
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-#bucket-container p{
-    text-align: left;
-    font-size: 22px;
-    font-size: bold;
+#bucket-container p {
+  text-align: left;
+  font-size: 22px;
+  font-size: bold;
 }

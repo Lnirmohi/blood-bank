@@ -15,11 +15,12 @@ import * as data from '../blood-group-donation-criteria.json';
 export class BloodBankComponent implements OnInit {
 
   tabIndex: number;
-  bloodDonationCriteriaData: any;
+  bloodDonationCriteriaData: JSON;
 
   bloodGroupRequired: string;
   numberOfBottlesRequired: number;
-
+  bloodContainerList: DonatedBlood[];
+  dropAllowedOnContainer: boolean;
 
   _bloodBankData: {
     positiveBloodData: DonatedBlood[],
@@ -39,12 +40,22 @@ export class BloodBankComponent implements OnInit {
 
   ngOnInit() {
     this.bloodDonationCriteriaData = data.data as any;
+    this.dropAllowedOnContainer = true;
+    this.bloodContainerList = [];
+  }
+
+  addToBloodContainerList(donatedBlood: DonatedBlood) {
+    this.bloodContainerList.push(donatedBlood);
+  }
+
+  disableBloodContainerList() {
+    this.dropAllowedOnContainer = false;
   }
 
   nextTab(event) {
     this._bloodBankData.positiveBloodData = [];
     this._bloodBankData.negativeBloodData = [];
-    
+
     this.tabIndex = event.index;
 
     for (const key in (event.formData)) {
@@ -64,8 +75,6 @@ export class BloodBankComponent implements OnInit {
         }
       }
     }
-
-    console.log(this.bloodBankData);
   }
 
   checkBloodGroupAvailibility(bloodGroupRequiredData) {
@@ -75,63 +84,74 @@ export class BloodBankComponent implements OnInit {
     this.bloodGroupRequired = bloodGroupRequiredData.bloodGroupRequired;
     this.numberOfBottlesRequired = bloodGroupRequiredData.numberOfBottle;
 
-    permittedBloodGroup.push(this.bloodDonationCriteriaData[this.bloodGroupRequired].canReceive);
+    permittedBloodGroup.push(...this.bloodDonationCriteriaData[this.bloodGroupRequired].canReceive);
 
-    this.validateBloodGroupsForDonation(permittedBloodGroup);
+    this.validateBloodGroupsForDonation(permittedBloodGroup, this.numberOfBottlesRequired);
 
-    /* if (this.bloodGroupRequired.endsWith('+')) {
-
-    } else if (this.bloodGroupRequired.endsWith('-')) {
-
-    } */
+    console.log('this.bloodBankData => ', this.bloodBankData);
   }
 
-  validateBloodGroupsForDonation(validBloodGroups: string[]) {
+  validateBloodGroupsForDonation(validBloodGroups: string[], bottleCountRequired: number) {
 
-    console.log('validBloodGroups', validBloodGroups);
+    validBloodGroups.forEach( bloodGroup => {
 
-    // console.log('this.bloodBankData.positiveBloodData', this.bloodBankData.positiveBloodData[1]);
+      if (bloodGroup.endsWith('+')) {
 
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.bloodBankData.positiveBloodData.length; i++) {
+        this.bloodBankData.positiveBloodData.forEach( (bloodData, index) => {
 
-      // tslint:disable-next-line:prefer-for-of
-      for (let j = 0; j < validBloodGroups[0].length; j++) {
+          if (
+            bloodData.bloodGroup === bloodGroup &&
+            bloodData.countPresent >= bottleCountRequired
+            ) {
+            this.bloodBankData.positiveBloodData[index].eligibleForDonation = true;
+            // this.eligibleBloodList.push(this.bloodBankData.positiveBloodData[index]);
+          }
+        });
+      } else if (bloodGroup.endsWith('-')) {
 
-        // console.log('validBloodGroups[j]', validBloodGroups[j]);
-        // console.log('this.bloodBankData.positiveBloodData[i].bloodGroup', this.bloodBankData.positiveBloodData[i].bloodGroup);
+        this.bloodBankData.negativeBloodData.forEach( (bloodData, index) => {
 
-        /* console.log(
-          'validBloodGroups[j] === this.bloodBankData.positiveBloodData[i].bloodGroup',
-          validBloodGroups[j] === this.bloodBankData.positiveBloodData[i].bloodGroup
-        ); */
-
-        if (validBloodGroups[0][j] === this.bloodBankData.positiveBloodData[i].bloodGroup) {
-
-          this.bloodBankData.positiveBloodData[i].eligibleForDonation = true;
-        } else {
-          this.bloodBankData.negativeBloodData[i].eligibleForDonation = false;
-        }
+          if (
+            bloodData.bloodGroup === bloodGroup &&
+            bloodData.countPresent >= bottleCountRequired
+            ) {
+            this.bloodBankData.negativeBloodData[index].eligibleForDonation = true;
+            // this.eligibleBloodList.push(this.bloodBankData.positiveBloodData[index]);
+          }
+        });
       }
+    });
+  }
+
+  bloodCardDropped(event: any) {
+
+    const donatedBloodGroup: string = event.dragData.bloodGroup;
+
+    if (donatedBloodGroup.endsWith('+')) {
+
+      this.removeBloodCountFromBank('positiveBloodData', donatedBloodGroup);
+    } else if (donatedBloodGroup.endsWith('-')) {
+
+      this.removeBloodCountFromBank('negativeBloodData', donatedBloodGroup);
     }
+  }
 
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.bloodBankData.negativeBloodData.length; i++) {
+  removeBloodCountFromBank(bloodGroup: string, donatedBloodGroup: string) {
 
-      // tslint:disable-next-line:prefer-for-of
-      for (let j = 0; j < validBloodGroups[0].length; j++) {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.bloodBankData[bloodGroup].length; i++) {
 
-        if (validBloodGroups[0][j] === this.bloodBankData.negativeBloodData[i].bloodGroup) {
+      if (this.bloodBankData[bloodGroup][i].bloodGroup === donatedBloodGroup) {
 
-          console.log('validBloodGroups[j]', validBloodGroups[j]);
-          console.log('this.bloodBankData.positiveBloodData[i]', this.bloodBankData.positiveBloodData[i]);
+        this.bloodBankData[bloodGroup][i].countPresent -= this.numberOfBottlesRequired;
 
-          this.bloodBankData.negativeBloodData[i].eligibleForDonation = true;
-        } else {
-          this.bloodBankData.negativeBloodData[i].eligibleForDonation = false;
-        }
+        this.addToBloodContainerList(
+          new DonatedBlood(donatedBloodGroup, this.numberOfBottlesRequired, false)
+        );
+
+        this.disableBloodContainerList();
+        break;
       }
     }
   }
 }
-

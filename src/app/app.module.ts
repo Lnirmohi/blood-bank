@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { MaterialModule } from './shared/material.module';
 import { AppRoutingModule } from './app-routing.module';
+import { NgDragDropModule } from 'ng-drag-drop';
 
 
 import { AppComponent } from './app.component';
@@ -24,7 +25,8 @@ import { BloodRequirementFormComponent } from './blood-requirement-form/blood-re
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    NgDragDropModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

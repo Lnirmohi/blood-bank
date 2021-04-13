@@ -20,7 +20,7 @@ export class BloodRequirementFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.numberOfBottles  = range(1, 50).pipe(toArray());
-    
+
     this.bloodRequirementFormGroup = this.formBuilder.group({
       bloodGroupRequired: ['', Validators.required],
       numberOfBottle: [0, Validators.required]
